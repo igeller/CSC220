@@ -1,0 +1,38 @@
+private Node<V> find (String key, int iKey, List<Node<V>> list) {
+    // EXERCISE:
+	  char keyChar = key.charAt(iKey);
+	  int iNode = 0;
+	 
+    // Look for the node in list with node.sub.charAt(0) equal to
+    // key.charAt(iKey).
+	  while(iNode < list.size() && keyChar > list.get(iNode).sub.charAt(0)) {
+		  iNode++;
+	  }
+	  
+	  if(iNode == list.size() || keyChar < list.get(iNode).sub.charAt(0)) {
+		  return null;
+	  }
+	  
+	  Node<V> node = list.get(iNode);
+	  iKey++;
+	  int iSub = 1;
+    // Increment iKey, set iSub=1, and match as much as possible.
+	  while(iKey < key.length() && iSub < node.sub.length() && key.charAt(iKey) == node.sub.charAt(iSub)) {
+		  iKey++;
+		  iSub++;
+	  }
+	  
+	  //ideal case that we found out word, by going through whole sub
+	  if(iKey == key.length() && iSub == node.sub.length()) {
+		  return node;
+	  }
+
+    // Recurse if necessary.
+	  if(iSub == node.sub.length() && node.list != null)
+		  return find(key, iKey, node.list);
+	  else {
+		 return null;
+	  }
+
+    //return null;
+  }    

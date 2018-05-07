@@ -1,0 +1,161 @@
+Tree.java will be another implementation of a Java Map.  The Node class
+has data, left, and right.  In a binary search tree, left is less and
+right is greater.
+
+The toString method prints tree sideways.  You have to turn your head
+to the left to get the traditional view.  So for instance, when it
+prints
+
+        n 4
+    l 2
+        c 5
+b 0
+    a 3
+
+it is really the tree
+
+    b
+    0
+a       l
+3       2
+      c   n
+      5   4
+
+
+0. Create package prog08 and add Tree.java and Heap.java.
+
+
+1. In Tree.java, implement the private find method using the notes
+   from yesterday.  Methods in Tree should use RECURSION not iteration.
+
+
+2. Implement the private add method using the notes.  Remember that
+   you need to say Node<K,V> instead of Node so it works generically.
+   Make sure you understand what every line does.  The TA can do some
+   examples on the board.  Now, implement the public put method using
+   add.  What do you do with the value add returns?
+
+   Test the program.  The output should be as in tree-output.txt, only
+   the removes won't happen.
+
+
+SKIP TO STEP 7 IN THE LAB AND DO 3-6 FOR HOMEWORK
+
+3. Delete the first two lines from the public remove method.
+   Implement the private remove method based on the notes.  It will
+   call removeRoot.
+
+
+4. Implement removeRoot.  It will call moveMinToRoot.
+
+
+5. Implement moveMinToRoot.
+
+
+6. Copy Jumble.java from prog07 into prog08 and change the package
+   name at the top of the file.  Switch it from using SkipList to
+   using Tree.  Is it fast enough to load "dict"?  Is it as fast as
+   using TreeMap (from java.util)?  Why or why not?
+
+
+
+7. In Heap, go over all the methods up to and including offer.  Make
+   sure you understand them.  Implement poll().  It uses ITERATION.
+
+For the final loop, what's the condition on the while?
+
+	The item at index is greater than one of its children.
+
+How do you say this in Java:
+
+	(The item at) index is greater than its left child or
+        index is greater than its right child
+
+More specifically
+
+	index has a left child and is greater than that child
+	or
+	index has a right child and is greater than that child
+
+Once you have this condition, then you need to do the inside of the loop:
+
+	swap index with the smaller child
+
+More specifically
+
+	if right child is less than left child
+	then swap index with right
+	else swap index with left
+
+Can you get the logic right?  Remember, the parent might not HAVE a
+right child.  Who wins then?  Make sure the if condition handles this case.
+
+
+
+HOMEWORK DO 4-7 ABOVE AND THE FOLLOWING
+
+8. Add code to solve so it displays a message about how many times it
+   polls the queue when it is done.  (Poll is expensive because you
+   have the check the entire dictionary for neighbors.)  You should
+   get 481.
+
+
+9. Add a distance() method to the Node class that returns the number
+   of steps back to the start.  Use recursion.  What is the base case?
+   (Hint: what value of previous does the start node have?)
+
+   Add a message to solve that tells you how far the target is from
+   the start (when you have found the path).
+
+
+10. Add a static method differenceLetters to WordStep that tells you
+    the number of letters that are different in two words.
+    differenceSteps("snow", "slot") is 2.  Test it.
+
+
+11. Add a class NodeComparator that implements Comparator<Node>.
+
+    a. Its constructor NodeComparator(target) should take the target as
+       an argument and store it inside NodeComparator.
+
+    b. A value method value(node) returns the distance to the start
+       plus the difference from the target.
+
+    c. A compare method compare(node1, node2) should return < 0 if
+       node1 has smaller value, = 0 if they have the same value, and >
+       0 otherwise.
+
+    Switch to using a PriorityQueue<Node> using your Comparator.
+    (Check the documentation, this constructor also requires an
+    initial capacity.  Use 1000.)  How many words does it dequeue now?
+
+
+12. Now switch to using your Heap using your Comparator.  It should
+    run the same.  Switch back to PriorityQueue for the next part.
+
+
+13. Unfortunately, you will also notice that the solution for "snow"
+    to "rain" is LONGER than before.  Here is how to fix this.
+
+    a. Implement the remove method in Heap.
+
+    b. When WordStep solve dequeues a node and looks at all elements
+       of the dictionary for neighbors, it SHOULD look at next nodes
+       which have next.previous set already.  If
+
+	node.distance()+1 < next.distance()
+
+       then setting next.previous=node will give next a shorter path
+       back to start.  If so, remove next from the heap, then change
+       next.previous, and finally put it back into the heap.
+
+    solve() should now find the same length solution for snow to rain
+    but dequeue far fewer words than the prog07 solve().
+
+    Switch back to Heap and make sure it still works right.
+
+
+14. I also provided TestHeap, which should print nothing if your Heap
+    is working.
+
+
