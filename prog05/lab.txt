@@ -1,0 +1,243 @@
+0. Create package prog05.
+
+1. Finish implementing ArrayStack.java.  Copy the missing methods from
+   StackInt, including their javadoc and fill them in.  Since I set
+   INITIAL_CAPACITY to 100, you can start with an empty reallocate()
+   method.  Test your implementation of StackInt using StackTester.
+
+   If that is working, implement reallocate(), set INITIAL_CAPACITY to
+   2 and test again (pushing more than two items, of course).
+
+   Don't forget to test popping and peeking an empty stack.
+
+2. Finish implementing LinkedStack.java, an implementation of StackInt
+   using a linked list.  Modify StackTester to test it.
+
+3. Finish implementing ListStack.java, an implementation of StackInt
+   using a java.util.List.  Test it.
+
+
+
+For the rest of the lab you will be creating a simple expression
+calculator.
+
+To do so you need two stacks: one to contain operators and the other
+to contain operands (numbers).  When an operand is encountered it is
+pushed onto the operand stack.  When an operator is encountered, it is
+processed as described in the infix to postfix algorithms.  When an
+operator is popped off the operator stack, it is processed as
+described in the postfix evaluation algorithm: the top two operands
+are popped off the operand stack, the operation is performed, and the
+result is pushed back onto the operand stack.
+
+
+4. Have a look at the evaluate method in Calculator.java.  Implement
+   the method numberStackToString.  Run Calculator and type some
+   expressions.  What does it print and why?  Implement the method
+   operatorStackToString and test.
+
+   As I explained in class, evaluate is pushing all the numbers on the
+   number stack and all the operators on the operator stack and then
+   displaying both stacks.
+
+
+HOMEWORK
+
+5. Get a version working that works on expressions without
+   parentheses.  You will need the following methods:
+
+int precedence (char op)
+Return the precedence value of op.  For example,
+precedence('/') return 2.
+I wrote this for you, but you should look how I did it.
+
+double evaluateOperator (double a, char op, double b)
+Apply the operator op to a and b.  For example,
+evaluateOperator(3, '*', 4) returns 12.
+evaluateOperator(3, '^', 4) returns 81 (use Math.pow).
+
+void evaluateOperator ()
+Pop the top operator from the operator stack.  Pop the top two numbers
+from the number stack.  Apply the operator to the numbers, and push
+the result on the number stack.
+--> Call displayStacks() before you return. <--
+
+void processOperator (char op)
+While the top element (if there is one) of the operator stack
+      has >= precedence than op,
+  evaluate it using evaluateOperator().
+Then push op on the stack.
+
+double evaluate (String expr)
+Modify the while loop so it calls processOperator(o)
+instead of pushing the operator on the stack.
+Add a second while loop that evaluates the remaining operators in the stack.
+Pop the number stack and return the result.
+
+
+2-3-4*2
+^
+numberStack: 2
+operatorStack:   
+
+2-3-4*2
+ ^
+numberStack: 2 
+operatorStack: -  
+
+2-3-4*2
+  ^
+numberStack: 2 3
+operatorStack: -
+
+2-3-4*2
+   ^
+numberStack: -1
+operatorStack:   
+
+2-3-4*2
+   ^
+numberStack: -1
+operatorStack: -  
+
+2-3-4*2
+    ^
+numberStack: -1 4
+operatorStack: -  
+
+2-3-4*2
+     ^
+numberStack: -1 4
+operatorStack: - *
+
+2-3-4*2
+      ^
+numberStack: -1 4 2
+operatorStack: - *
+
+2-3-4*2
+       ^
+numberStack: -1 8
+operatorStack: -  
+
+2-3-4*2
+       ^
+numberStack: -9
+operatorStack:   
+
+
+6. Modify your program so it works with parentheses.  You should only
+   have to modify processOperator.  (Just in case, save your solution
+   to 5 by making a copy of the method and commenting it out.)
+
+processOperator('(') ?
+push it!
+
+processOperator(')') ?
+while the top of the stack is not '('
+  evaluate the top operator
+pop the '('
+
+(1-2)*3
+^
+numberStack:
+operatorStack: (
+
+(1-2)*3
+ ^
+numberStack: 1
+operatorStack: (
+
+(1-2)*3
+  ^
+numberStack: 1
+operatorStack: ( -
+
+(1-2)*3
+   ^
+numberStack: 1 2
+operatorStack: ( -
+
+(1-2)*3
+    ^
+numberStack: -1
+operatorStack: (
+
+(1-2)*3
+    ^
+numberStack: -1
+operatorStack:
+
+(1-2)*3
+     ^
+numberStack: -1
+operatorStack: *
+
+(1-2)*3
+      ^
+numberStack: -1 3
+operatorStack: *
+
+(1-2)*3
+       ^
+numberStack: -9
+operatorStack:
+
+Try (1-(2-3))*3 and (6+2)*(1+3).
+
+
+7. Modify your program so it understands unary minus: -1 - -3 = 2.
+
+   a. Detecting unary '-': if you see a '-' and the previous token
+   read was either a number or a ')', then you know that this is a
+   binary '-'.  Otherwise it is a unary 'u'.  If the latter, you
+   should change the operator internally to 'u'.
+
+   b. Processing unary '-': to process 'u', just push it on the
+   operator stack.  That's it!
+
+   c. Evaluating unary 'u': to evaluate 'u', pop the number stack,
+   negate the number (-x), and push it again.
+
+
+-2--3
+^
+numberStack: 
+operatorStack: u
+
+-2--3
+  ^
+numberStack: -2
+operatorStack: 
+
+-2--3
+  ^
+numberStack: -2
+operatorStack: -
+
+-2--3
+   ^
+numberStack: -2
+operatorStack: - u
+
+-2--3
+    ^
+numberStack: -2 3
+operatorStack: - u
+
+-2--3
+     ^
+numberStack: -2 -3
+operatorStack: -
+
+-2--3
+     ^
+numberStack: 1
+operatorStack: 
+
+
+   Make sure that -2^-4 = -0.0625.
+
+
+
+
