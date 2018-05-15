@@ -1,4 +1,4 @@
-# CSC220 - Programming II: Data Structures and Algorithms
+# CSC220: Programming II -- Data Structures and Algorithms
 This repository contains my projects from CSC220 during Spring 2018 of my freshman year.
 
 ## Index:
