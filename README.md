@@ -1,8 +1,6 @@
 # CSC220: Programming II -- Data Structures and Algorithms
-This repository contains my projects from CSC220 during Spring 2018 of my freshman year.
-
-All code for CSC220 was written in Java.
-
+This repository contains my projects from CSC220 during Spring 2018 of my freshman year.<br/>
+All code for CSC220 was written in Java.<br/>
 [Click Here for the Wiki](https://github.com/igeller/CSC220/wiki)
 
 
