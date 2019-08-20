@@ -1,4 +1,4 @@
-package prog01;
+package CSC220.prog01;
 
 /**
  * Class that represents a computer.
